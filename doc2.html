@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  
+
+  <h1>Chai aur Javascript</h1>
+  <button id="start">Start</button>
+  <button id="stop">Stop</button>
+  <script > 
+
+    function updateDate(){
+
+        const timestamp = Date.now();
+        const dateObj = new Date(timestamp);
+        //this is human readable format
+        const format = dateObj.toLocaleString();
+        document.querySelector('h1').innerHTML = "This is your current date : "+format;
+        console.log(Date.now())
+    }
+    let intervalId;
+    const sayDate = document.querySelector('#start')
+    sayDate.addEventListener('click',function(){
+        updateDate();
+        intervalId = setInterval(updateDate,1000);
+        sayDate.disabled = true;
+
+    })
+    const stopButton = document.querySelector('#stop');
+    stopButton.addEventListener('click',function(){
+        clearInterval(intervalId);
+        sayDate.disabled = false;
+        console.log("stopped")
+        
+    })
+
+
+  
+  </script>
+</body>
+</html>

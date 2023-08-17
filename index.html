@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>News API Test</title>
+</head>
+<body>
+    <script>
+        const API_KEY = "5cc62b57f80d47bfa5f82e8fdd0126ba";
+        // Update the 'from' date to a more recent date
+        const url = "https://newsapi.org/v2/everything?q=tesla&from=2023-07-28&sortBy=publishedAt&apiKey=" + API_KEY;
+
+        const initialRequestDelay = 5000; // 5 seconds (adjust this as needed)
+        let currentRequestDelay = initialRequestDelay;
+
+        window.addEventListener("load", () => fetchNews());
+
+        function reload() {
+            window.location.reload();
+        }
+
+        async function fetchNews() {
+            try {
+                const res = await fetch(url);
+                const data = await res.json();
+                console.log(data);
+                // bindData(data.articles);
+                currentRequestDelay = initialRequestDelay; // Reset the delay to its initial value on a successful request
+            } catch (error) {
+                console.error("Error fetching news:", error);
+                // If the request fails due to rate limiting, wait for the currentRequestDelay and then try again
+                setTimeout(fetchNews, currentRequestDelay);
+                // Increase the delay for the next request using an exponential backoff approach
+                currentRequestDelay *= 2;
+            }
+
+            // Continue fetching news with the updated delay
+            setTimeout(fetchNews, currentRequestDelay);
+        }
+    </script>
+</body>
+</html>
